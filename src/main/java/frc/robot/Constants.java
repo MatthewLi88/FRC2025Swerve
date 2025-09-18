@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -23,8 +19,12 @@ import edu.wpi.first.math.util.Units;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
+
+
 public final class Constants {
-public static final class DriveConstants {
+
+  // -------------------- DRIVE CONSTANTS --------------------
+  public static final class DriveConstants {
     public static final int kLeftMotor1Port = 17;
     public static final int kLeftMotor2Port = 18;
     public static final int kRightMotor1Port = 19;
@@ -61,9 +61,7 @@ public static final class DriveConstants {
     public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
     public static final double kFrontRightChassisAngularOffset = 0;
     public static final double kBackLeftChassisAngularOffset = Math.PI;
-    // public static final double kBackRightChassisAngularOffset = Math.PI / 2;
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
-
 
     // SPARK MAX CAN IDs
     // using intake as front
@@ -81,10 +79,9 @@ public static final class DriveConstants {
 
     public static final double kMaxDriveSubsystemSpeed = 1; // 0-1
     public static final double kMaxDriveSubsystemTurnSpeed = 1; // 0-1
-
   }
 
-
+  // -------------------- MODULE CONSTANTS --------------------
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,
     // 13T, or 14T.
@@ -152,6 +149,7 @@ public static final class DriveConstants {
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
+  // -------------------- OI / AUTO CONSTANTS --------------------
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.05;
@@ -172,7 +170,32 @@ public static final class DriveConstants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
+  // -------------------- NEO MOTOR CONSTANTS --------------------
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+
+  // -------------------- ARM / ELBOW / WRIST CONSTANTS --------------------
+  public static final class ElevatorConstants {
+    public static final int elbowFrontCanId = 11;
+    public static final int elbowBackCanId = 12;
+    public static final int armFrontCanId = 13;
+    public static final int armBackCanId = 14;
+    public static final int wristFrontCanId = 15;
+    public static final int wristBackCanId = 16;
+  }
+
+  public static final class IntakeConstants {
+    public static final int CURRENT_LIMIT_A = 40; // amps
+    public static final double ELBOW_MAX_SPEED = 0.6;
+    public static final double ARM_MAX_SPEED = 0.5;
+    public static final double WRIST_MAX_SPEED = 0.4;
+  }
+
+    // -------------------- GENERAL CONSTANTS --------------------
+    public static final class GeneralConstants {
+      // Set to true if you want detailed debugging/logging
+      public static final boolean kInVerboseMode = false;
+    }
+
 }
