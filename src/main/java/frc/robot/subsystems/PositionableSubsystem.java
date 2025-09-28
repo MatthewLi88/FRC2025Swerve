@@ -3,8 +3,11 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.RelativeEncoder;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkRelativeEncoder;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
+
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -22,7 +25,7 @@ public abstract class PositionableSubsystem extends SubsystemBase {
     private double currentSpeed = 0;
     private double maxSpeed = 1.0;
 
-    private AbsoluteEncoder aEncoder;
+    private SparkAbsoluteEncoder aEncoder;
     private RelativeEncoder rEncoder;
     private PIDController pid;
 
@@ -52,7 +55,7 @@ public abstract class PositionableSubsystem extends SubsystemBase {
         pidTab.add(PIDKD_KEY, currentKD);
 
         rEncoder = motor.getEncoder();
-        aEncoder = motor.getAbsoluteEncoder(getPosition().kDutyCycle);
+        aEncoder = motor.getAbsoluteEncoder();
 
         pid = new PIDController(currentKP, currentKI, currentKD);
 
@@ -61,9 +64,6 @@ public abstract class PositionableSubsystem extends SubsystemBase {
         slogger = new DoubleLogEntry(log, name + "Spd");
 
         // Simulation
-        if (Constants.GeneralConstants.kInSimulationMode) {
-            REVPhysicsSim.getInstance().addSparkMax(motor, 2.6F, 5676.0F);
-        }
 
         showPositionOnDashboard();
     }
