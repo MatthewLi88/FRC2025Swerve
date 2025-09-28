@@ -19,6 +19,8 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElbowSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -34,6 +36,8 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final ElbowSubsystem m_elbow = ElbowSubsystem.getInstance();
+  private final WristSubsystem m_wrist = WristSubsystem.getInstance();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -56,6 +60,21 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+
+    // Default command to control Elbow and Wrist with triggers
+    new RunCommand(
+        () -> {
+          // Right trigger moves elbow up, left trigger moves elbow down
+          double elbowSpeed = m_driverController.getRightTriggerAxis() - m_driverController.getLeftTriggerAxis();
+          m_elbow.move(elbowSpeed * Constants.IntakeConstants.ELBOW_MAX_SPEED);
+
+          // Left bumper moves wrist up, right bumper moves wrist down (example)
+          double wristSpeed = (m_driverController.getLeftBumper() ? 1 : 0)
+                            - (m_driverController.getRightBumper() ? 1 : 0);
+        m_wrist.move(wristSpeed * Constants.IntakeConstants.WRIST_MAX_SPEED);
+        },
+        m_elbow, m_wrist
+    ).schedule();
   }
 
   /**
